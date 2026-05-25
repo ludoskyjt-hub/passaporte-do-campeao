@@ -1,0 +1,17 @@
+# Nixpacks build config for Railway (api-server)
+# Used when deploying the monorepo with /artifacts/api-server as the target.
+
+[phases.setup]
+nixPkgs = ["nodejs_24", "pnpm-10_x"]
+
+[phases.install]
+cmds = ["corepack enable", "pnpm install --frozen-lockfile"]
+
+[phases.build]
+cmds = ["pnpm --filter @workspace/api-server run build"]
+
+[start]
+cmd = "node --enable-source-maps artifacts/api-server/dist/index.mjs"
+
+[variables]
+NODE_ENV = "production"
